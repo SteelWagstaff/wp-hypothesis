@@ -215,7 +215,25 @@ class HypothesisSettingsPage {
 				)
 			);
 		}
-	}
+	/**
+   * display Settings
+   */
+  add_settings_section(
+    'hypothesis_display_section', // ID.
+    __( 'Display Settings', 'hypothesis' ), // Title.
+    array( $this, 'display_section_info' ), // Callback.
+    'hypothesis-setting-admin' // Page.
+  );
+
+  add_settings_field(
+    'hide-annotation-header',
+    __( 'Hide annotation author & date information', 'hypothesis' ),
+    array( $this, 'hide_annotation_header_callback' ),
+    'hypothesis-setting-admin',
+    'hypothesis_display_section'
+  );
+}
+
 
 	/**
 	 * Sanitize each setting field as needed
@@ -290,6 +308,14 @@ class HypothesisSettingsPage {
 	?>
 		<p><?php esc_attr_e( 'Control where Hypothesis is loaded.', 'hypothesis' ); ?></p>
 	<?php }
+  /**
+   * Print the Display Settings section text
+   */
+  public function display_section_info() {
+  ?>
+    <p><?php esc_attr_e( 'Control additional Hypothesis display settings.', 'hypothesis' ); ?></p>
+  <?php }
+
 
 	/**
 	 * Callback for 'highlights-on-by-default'.
@@ -395,6 +421,17 @@ class HypothesisSettingsPage {
 			esc_attr( $val )
 		);
 	}
+
+  /**
+   * Callback for 'hide-annotation-header'.
+   */
+  public function hide_annotation_header_callback ( $args ) {
+    $val = isset( $this->options['hide-annotation-header'] ) ? esc_attr( $this->options['hide-annotation-header'] ) : 0;
+    printf(
+      '<input type="checkbox" id="hide-annotation-header" name="wp_hypothesis_options[hide-annotation-header]" value="1" %s/>',
+      checked( $val, 1, false )
+    );
+  }
 }
 
 if ( is_admin() ) {
@@ -485,4 +522,9 @@ function add_hypothesis() {
 			}
 		}
 	}
+
+  // display settings
+  if ( isset( $options['hide-annotation-header'] ) ) {
+    wp_enqueue_style( 'hypo', '/wp-content/plugins/wp-hypothesis/hypo.css');
+  }
 }
