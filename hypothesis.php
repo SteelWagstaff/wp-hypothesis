@@ -290,6 +290,10 @@ class HypothesisSettingsPage {
 			}
 		}
 
+    if ( isset( $input['hide-annotation-header'] ) ) {
+			$new_input['hide-annotation-header'] = absint( $input['hide-annotation-header'] );
+		}
+
 		return $new_input;
 	}
 
