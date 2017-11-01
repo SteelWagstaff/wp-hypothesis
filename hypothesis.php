@@ -529,6 +529,6 @@ function add_hypothesis() {
 
   // display settings
   if ( isset( $options['hide-annotation-header'] ) ) {
-    wp_enqueue_style( 'hypo', '/wp-content/plugins/wp-hypothesis/hypo.css');
+    wp_enqueue_style( 'hypo', plugins_url( 'hypo.css', __FILE__) );
   }
 }
