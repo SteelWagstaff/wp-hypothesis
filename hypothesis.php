@@ -439,7 +439,7 @@ class HypothesisSettingsPage {
     $val = isset( $this->options['darken-highlights'] ) ? esc_attr( $this->options['darken-highlights'] ) : 0;
 
     printf(
-      '<input type="checkbox" id="darken-highlights" name="wphypothesis_options[darken-highlights]" value="1" %s/>',
+      '<input type="checkbox" id="darken-highlights" name="wp_hypothesis_options[darken-highlights]" value="1" %s/>',
       checked( $val, 1, false )
     );
   }
