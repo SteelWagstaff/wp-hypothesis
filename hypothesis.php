@@ -4,7 +4,7 @@
  * Plugin URI: http://hypothes.is/
  * Description: Hypothesis is an open platform for the collaborative evaluation of knowledge. This plugin embeds the necessary scripts in your Wordpress site to enable any user to use Hypothesis without installing any extensions.
  * Author: The Hypothesis Project and contributors
- * Version: 0.5.0
+ * Version: 0.5.1
  * Author URI: http://hypothes.is/
  * Text Domain:     hypothesis
  * Domain Path:     /languages
@@ -498,20 +498,6 @@ function add_hypothesis() {
 		) );
 	endif;
 
-  /**
- 	* Calls script to resize page upon expansion of Hypothesis annotation pane
- 	*/
- 	if ( isset ( $this['adjust-page-width'] ) ) {
-		 wp_enqueue_script( 'resize', plugins_url('/js/resize.js', __FILE__), array('jquery'), false, true );
-  }
-
-	/**
- 	* Loads CSS which darkens annotations to make more visible
- 	*/
-  if (isset ($this['darken_highlights'] ) ) {
-    wp_enqueue_style( 'darken', plugins_url( 'css/darken.css', __FILE__) );
-  }
-
 	// Content settings.
 	$enqueue = false;
 
@@ -548,4 +534,18 @@ function add_hypothesis() {
 			}
 		}
 	}
+  /**
+ 	* Calls script to resize page upon expansion of Hypothesis annotation pane
+ 	*/
+ 	if ( isset ( $options['adjust-page-width'] ) ) {
+		 wp_enqueue_script( 'resize', plugins_url('js/resize.js', __FILE__), array('jquery'), false, true );
+  }
+
+	/**
+ 	* Loads CSS which darkens annotations to make more visible
+ 	*/
+  if (isset ($options['darken_highlights'] ) ) {
+    wp_enqueue_style( 'darken', plugins_url( 'css/darken.css', __FILE__) );
+  }
+
 }
