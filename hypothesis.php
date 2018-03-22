@@ -498,6 +498,20 @@ function add_hypothesis() {
 		) );
 	endif;
 
+  /**
+ 	* Calls script to resize page upon expansion of Hypothesis annotation pane
+ 	*/
+ 	if ( isset ( $options['adjust-page-width'] ) ) :
+		 wp_enqueue_script( 'resize', plugins_url('js/resize.js', __FILE__), array('jquery'), false, true );
+  endif;
+
+	/**
+ 	* Loads CSS which darkens annotations to make more visible
+ 	*/
+  if ( isset ($options['darken_highlights'] ) ) :
+    wp_enqueue_style( 'darken', plugins_url( 'css/darken.css', __FILE__) );
+  endif;
+
 	// Content settings.
 	$enqueue = false;
 
@@ -534,18 +548,4 @@ function add_hypothesis() {
 			}
 		}
 	}
-  /**
- 	* Calls script to resize page upon expansion of Hypothesis annotation pane
- 	*/
- 	if ( isset ( $options['adjust-page-width'] ) ) {
-		 wp_enqueue_script( 'resize', plugins_url('js/resize.js', __FILE__), array('jquery'), false, true );
-  }
-
-	/**
- 	* Loads CSS which darkens annotations to make more visible
- 	*/
-  if (isset ($options['darken_highlights'] ) ) {
-    wp_enqueue_style( 'darken', plugins_url( 'css/darken.css', __FILE__) );
-  }
-
 }
