@@ -133,6 +133,22 @@ class HypothesisSettingsPage {
 			'hypothesis_settings_section'
 		);
 
+    add_settings_field(
+			'adjust-page-width',
+			'Adjust the width of the page when annotation pane is expanded',
+			array( $this, 'adjust_page_width_callback' ),
+			'hypothesis-setting-admin',
+			'hypothesis_settings_section'
+		);
+
+		add_settings_field(
+			'darken-highlights',
+			'Darken highlights (to make more visible)',
+			array( $this, 'darken_highlights_callback' ),
+			'hypothesis-setting-admin',
+			'hypothesis_settings_section'
+		);
+
 		/**
 		 * Content Settings
 		 * Control which pages / posts / custom post types Hypothesis is loaded on.
@@ -245,6 +261,14 @@ class HypothesisSettingsPage {
 		if ( isset( $input['allow-on-front-page'] ) ) {
 			$new_input['allow-on-front-page'] = absint( $input['allow-on-front-page'] );
 		}
+
+    if ( isset( $input['adjust-page-width'] ) ) {
+      $new_input['adjust-page-width'] = absint( $input['adjust-page-width'] );
+    }
+
+    if ( isset( $input['darken-highlights'] ) ) {
+      $new_input['darken-highlights'] = absint( $input['darken-highlights'] );
+    }
 
 		foreach ( $posttypes as $slug => $name ) {
 			if ( 'post' === $slug ) { // Adjust for backwards compatibility.
@@ -395,6 +419,31 @@ class HypothesisSettingsPage {
 			esc_attr( $val )
 		);
 	}
+
+  /**
+   * Callback for 'adjust-page-width'.
+   */
+  public function adjust_page_width_callback ( $args ) {
+    $val = isset( $this->options['adjust-page-width'] ) ? esc_attr( $this->options['adjust-page-width'] ) : 0;
+
+    printf(
+      '<input type="checkbox" id="adjust-page-width" name="wp_hypothesis_options[adjust-page-width]" value="1" %s/>',
+      checked( $val, 1, false )
+    );
+  }
+
+  /**
+   * Callback for 'darken-highlights'.
+   */
+  public function darken_highlights_callback ( $args ) {
+    $val = isset( $this->options['darken-highlights'] ) ? esc_attr( $this->options['darken-highlights'] ) : 0;
+
+    printf(
+      '<input type="checkbox" id="darken-highlights" name="wphypothesis_options[darken-highlights]" value="1" %s/>',
+      checked( $val, 1, false )
+    );
+  }
+
 }
 
 if ( is_admin() ) {
@@ -448,6 +497,20 @@ function add_hypothesis() {
 			'uploadsBase' => trailingslashit( $uploads['baseurl'] ),
 		) );
 	endif;
+
+  /**
+ 	* Calls script to resize page upon expansion of Hypothesis annotation pane
+ 	*/
+ 	if ( isset ( $this['adjust-page-width'] ) ) {
+		 wp_enqueue_script( 'resize', plugins_url('/js/resize.js', __FILE__), array('jquery'), false, true );
+  }
+
+	/**
+ 	* Loads CSS which darkens annotations to make more visible
+ 	*/
+  if (isset ($this['darken_highlights'] ) ) {
+    wp_enqueue_style( 'darken', plugins_url( 'css/darken.css', __FILE__) );
+  }
 
 	// Content settings.
 	$enqueue = false;
