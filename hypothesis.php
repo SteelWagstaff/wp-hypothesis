@@ -4,7 +4,7 @@
  * Plugin URI: http://hypothes.is/
  * Description: Hypothesis is an open platform for the collaborative evaluation of knowledge. This plugin embeds the necessary scripts in your Wordpress site to enable any user to use Hypothesis without installing any extensions.
  * Author: The Hypothesis Project and contributors
- * Version: 0.5.0
+ * Version: 0.5.1
  * Author URI: http://hypothes.is/
  * Text Domain:     hypothesis
  * Domain Path:     /languages
@@ -135,12 +135,26 @@ class HypothesisSettingsPage {
 
     add_settings_field(
 			'adjust-page-width',
+<<<<<<< HEAD
 			__( 'Resize page content so that the annotation layer does not obscure content', 'hypothesis' ),
+=======
+			'Adjust the width of the page when annotation pane is expanded',
+>>>>>>> origin/master
 			array( $this, 'adjust_page_width_callback' ),
 			'hypothesis-setting-admin',
 			'hypothesis_settings_section'
 		);
 
+<<<<<<< HEAD
+=======
+		add_settings_field(
+			'darken-highlights',
+			'Darken highlights (to make more visible)',
+			array( $this, 'darken_highlights_callback' ),
+			'hypothesis-setting-admin',
+			'hypothesis_settings_section'
+		);
+>>>>>>> origin/master
 
 		/**
 		 * Content Settings
@@ -276,6 +290,14 @@ class HypothesisSettingsPage {
 		if ( isset( $input['allow-on-front-page'] ) ) {
 			$new_input['allow-on-front-page'] = absint( $input['allow-on-front-page'] );
 		}
+
+    if ( isset( $input['adjust-page-width'] ) ) {
+      $new_input['adjust-page-width'] = absint( $input['adjust-page-width'] );
+    }
+
+    if ( isset( $input['darken-highlights'] ) ) {
+      $new_input['darken-highlights'] = absint( $input['darken-highlights'] );
+    }
 
 		foreach ( $posttypes as $slug => $name ) {
 			if ( 'post' === $slug ) { // Adjust for backwards compatibility.
@@ -452,15 +474,29 @@ class HypothesisSettingsPage {
 	}
 
   /**
-   * Callback for 'hide-annotation-header'.
+   * Callback for 'adjust-page-width'.
    */
-  public function hide_annotation_header_callback ( $args ) {
-    $val = isset( $this->options['hide-annotation-header'] ) ? esc_attr( $this->options['hide-annotation-header'] ) : 0;
+  public function adjust_page_width_callback ( $args ) {
+    $val = isset( $this->options['adjust-page-width'] ) ? esc_attr( $this->options['adjust-page-width'] ) : 0;
+
     printf(
-      '<input type="checkbox" id="hide-annotation-header" name="wp_hypothesis_options[hide-annotation-header]" value="1" %s/>',
+      '<input type="checkbox" id="adjust-page-width" name="wp_hypothesis_options[adjust-page-width]" value="1" %s/>',
       checked( $val, 1, false )
     );
   }
+
+  /**
+   * Callback for 'darken-highlights'.
+   */
+  public function darken_highlights_callback ( $args ) {
+    $val = isset( $this->options['darken-highlights'] ) ? esc_attr( $this->options['darken-highlights'] ) : 0;
+
+    printf(
+      '<input type="checkbox" id="darken-highlights" name="wp_hypothesis_options[darken-highlights]" value="1" %s/>',
+      checked( $val, 1, false )
+    );
+  }
+
 }
 
 if ( is_admin() ) {
