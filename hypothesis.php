@@ -562,8 +562,4 @@ function add_hypothesis() {
     wp_enqueue_style( 'hypo', plugins_url( 'hypo.css', __FILE__) );
   }
 
-  if ( isset( $options['adjust-page-width'] ) ) {
-    $src = plugin_dir_url( __FILE__ ) .'js/resize.js';
-		wp_enqueue_script( 'resize', $src, array('jquery'), false, true );
-  }
 }
