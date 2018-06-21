@@ -133,6 +133,15 @@ class HypothesisSettingsPage {
 			'hypothesis_settings_section'
 		);
 
+    add_settings_field(
+			'adjust-page-width',
+			__( 'Resize page content so that the annotation layer does not obscure content', 'hypothesis' ),
+			array( $this, 'adjust_page_width_callback' ),
+			'hypothesis-setting-admin',
+			'hypothesis_settings_section'
+		);
+
+
 		/**
 		 * Content Settings
 		 * Control which pages / posts / custom post types Hypothesis is loaded on.
@@ -256,6 +265,10 @@ class HypothesisSettingsPage {
 			$new_input['serve-pdfs-with-via'] = absint( $input['serve-pdfs-with-via'] );
 		}
 
+    if ( isset( $input['adjust-page-width'] ) ) {
+			$new_input['adjust-page-width'] = absint( $input['adjust-page-width'] );
+		}
+
 		if ( isset( $input['allow-on-blog-page'] ) ) {
 			$new_input['allow-on-blog-page'] = absint( $input['allow-on-blog-page'] );
 		}
@@ -354,6 +367,18 @@ class HypothesisSettingsPage {
 			checked( $val, 1, false )
 		);
 	}
+
+  /**
+   * Callback for 'adjust-page-width'.
+   */
+  public function adjust_page_width_callback() {
+    $val = isset( $this->options['adjust-page-width'] ) ? esc_attr( $this->options['adjust-page-width'] ) : 0;
+    printf(
+      '<input type="checkbox" id="adjust-page-width" name="wp_hypothesis_options[adjust-page-width]" value="1" %s/>',
+      checked( $val, 1, false )
+    );
+  }
+
 
 	/**
 	 * Callback for 'allow_on_blog_page'.
@@ -490,6 +515,11 @@ function add_hypothesis() {
 		) );
 	endif;
 
+  if ( isset ( $options['adjust-page-width'] ) ) :
+    		 $src = plugin_dir_url( __FILE__ ) .'js/pagefit.js';
+    		 wp_enqueue_script( 'resize', $src, array('jquery'), false, true );
+  endif;
+
 	// Content settings.
 	$enqueue = false;
 
@@ -530,5 +560,10 @@ function add_hypothesis() {
   // display settings
   if ( isset( $options['hide-annotation-header'] ) ) {
     wp_enqueue_style( 'hypo', plugins_url( 'hypo.css', __FILE__) );
+  }
+
+  if ( isset( $options['adjust-page-width'] ) ) {
+    $src = plugin_dir_url( __FILE__ ) .'js/resize.js';
+		wp_enqueue_script( 'resize', $src, array('jquery'), false, true );
   }
 }
