@@ -134,19 +134,22 @@ class HypothesisSettingsPage {
 		);
 
     add_settings_field(
+      'expand-long-annotations',
+      __( 'Automatically expand longer annotations so that users do not have to click "more" to see the full annotation', 'hypothesis'),
+      array( $this, 'expand_long_annotations_callback' ),
+      'hypothesis-setting-admin',
+      'hypothesis-settings_section'
+    );
+
+    add_settings_field(
 			'adjust-page-width',
-<<<<<<< HEAD
 			__( 'Resize page content so that the annotation layer does not obscure content', 'hypothesis' ),
-=======
 			'Adjust the width of the page when annotation pane is expanded',
->>>>>>> origin/master
 			array( $this, 'adjust_page_width_callback' ),
 			'hypothesis-setting-admin',
 			'hypothesis_settings_section'
 		);
 
-<<<<<<< HEAD
-=======
 		add_settings_field(
 			'darken-highlights',
 			'Darken highlights (to make more visible)',
@@ -154,7 +157,6 @@ class HypothesisSettingsPage {
 			'hypothesis-setting-admin',
 			'hypothesis_settings_section'
 		);
->>>>>>> origin/master
 
 		/**
 		 * Content Settings
@@ -291,6 +293,10 @@ class HypothesisSettingsPage {
 			$new_input['allow-on-front-page'] = absint( $input['allow-on-front-page'] );
 		}
 
+    if ( isset( $input['expand-long-annotations'] ) ) {
+      $new_input['expand-long-annotations'] = absint( $input['expand-long-annotations'] );
+    }
+
     if ( isset( $input['adjust-page-width'] ) ) {
       $new_input['adjust-page-width'] = absint( $input['adjust-page-width'] );
     }
@@ -390,18 +396,6 @@ class HypothesisSettingsPage {
 		);
 	}
 
-  /**
-   * Callback for 'adjust-page-width'.
-   */
-  public function adjust_page_width_callback() {
-    $val = isset( $this->options['adjust-page-width'] ) ? esc_attr( $this->options['adjust-page-width'] ) : 0;
-    printf(
-      '<input type="checkbox" id="adjust-page-width" name="wp_hypothesis_options[adjust-page-width]" value="1" %s/>',
-      checked( $val, 1, false )
-    );
-  }
-
-
 	/**
 	 * Callback for 'allow_on_blog_page'.
 	 */
@@ -472,6 +466,18 @@ class HypothesisSettingsPage {
 			esc_attr( $val )
 		);
 	}
+
+  /**
+   * Callback for 'expand-long-annotations'.
+   */
+  public function expand_long_annotations_callback ( $args ) {
+    $val = isset( $this->options['expand-long-annotations'] ) ? esc_attr( $this->options['expand-long-annotations'] ) : 0;
+
+    printf(
+      '<input type="checkbox" id="expand-long-annotations" name="wp_hypothesis_options[expand-long-annotations]" value="1" %s/>',
+      checked( $val, 1, false )
+    );
+  }
 
   /**
    * Callback for 'adjust-page-width'.
@@ -550,6 +556,10 @@ function add_hypothesis() {
 			'uploadsBase' => trailingslashit( $uploads['baseurl'] ),
 		) );
 	endif;
+
+  if ( isset( $options['expand-long-annotions'] ) ) :
+    wp_enqueue_script( 'expandlongannotations', plugins_url( 'js/expandlongannotations.js', __FILE__ ), array(), false, true );
+  endif;
 
   if ( isset ( $options['adjust-page-width'] ) ) :
     		 $src = plugin_dir_url( __FILE__ ) .'js/pagefit.js';
