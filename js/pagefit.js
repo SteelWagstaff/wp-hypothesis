@@ -3,11 +3,11 @@ window.hypothesisConfig = function () {
         onLayoutChange: function(layoutParams) {
             var Hwidth = layoutParams.width();
           if (body.width() - Hwidth > 400) {
-            jQuery('#page').css({width: 'calc(100%-' + Hwidth + 'px)'});
+            jQuery("#page").css("margin-right", "calc(100%-' + Hwidth + 'px)");
             }
           }
         }
-    }
+}
 /* Jon Udell's method for resizing pages
     function adjust(e) {
       var eWidth = parseInt(window.getComputedStyle(e)['width'].replace('px',''));
