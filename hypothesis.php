@@ -135,26 +135,20 @@ class HypothesisSettingsPage {
 
     add_settings_field(
 			'adjust-page-width',
-<<<<<<< HEAD
 			__( 'Resize page content so that the annotation layer does not obscure content', 'hypothesis' ),
-=======
 			'Adjust the width of the page when annotation pane is expanded',
->>>>>>> origin/master
-			array( $this, 'adjust_page_width_callback' ),
+	    		array( $this, 'adjust_page_width_callback' ),
 			'hypothesis-setting-admin',
 			'hypothesis_settings_section'
 		);
 
-<<<<<<< HEAD
-=======
-		add_settings_field(
+     add_settings_field(
 			'darken-highlights',
 			'Darken highlights (to make more visible)',
 			array( $this, 'darken_highlights_callback' ),
 			'hypothesis-setting-admin',
 			'hypothesis_settings_section'
 		);
->>>>>>> origin/master
 
 		/**
 		 * Content Settings
