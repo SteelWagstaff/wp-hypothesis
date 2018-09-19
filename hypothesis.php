@@ -468,18 +468,6 @@ class HypothesisSettingsPage {
 	}
 
   /**
-   * Callback for 'adjust-page-width'.
-   */
-  public function adjust_page_width_callback ( $args ) {
-    $val = isset( $this->options['adjust-page-width'] ) ? esc_attr( $this->options['adjust-page-width'] ) : 0;
-
-    printf(
-      '<input type="checkbox" id="adjust-page-width" name="wp_hypothesis_options[adjust-page-width]" value="1" %s/>',
-      checked( $val, 1, false )
-    );
-  }
-
-  /**
    * Callback for 'darken-highlights'.
    */
   public function darken_highlights_callback ( $args ) {
