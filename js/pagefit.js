@@ -1,9 +1,9 @@
 window.hypothesisConfig = function () {
     return {
         onLayoutChange: function(layoutParams) {
-          if (body.width() - layoutParams.width() > 400) {
-            jQuery('#page').css({width: 'calc(100%-' + layoutParams.width + 'px)'});
-            // Still need to account for placement of PB nav buttons
+            var Hwidth = layoutParams.width();
+          if (body.width() - Hwidth > 400) {
+            jQuery('#page').css({width: 'calc(100%-' + Hwidth + 'px)'});
             }
           }
         }
@@ -25,5 +25,4 @@ window.hypothesisConfig = function () {
     function adjustAll() {
       document.querySelectorAll('*').forEach(e => adjust(e) );
     }
-
     adjustAll();
