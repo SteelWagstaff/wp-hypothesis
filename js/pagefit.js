@@ -3,7 +3,7 @@ window.hypothesisConfig = function () {
         onLayoutChange: function(layoutParams) {
             var Hwidth = layoutParams.width();
           if (body.width() - Hwidth > 400) {
-            jQuery('#page').css('margin-right', Hwidth);
+            jQuery('#page').css('margin-right', Hwidth + 'px');
             }
           }
         }
