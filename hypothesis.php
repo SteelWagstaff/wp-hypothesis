@@ -202,7 +202,7 @@ class HypothesisSettingsPage {
 				)
 			);
 		}
-
+	}
 	/**
 	 * Sanitize each setting field as needed
 	 *
