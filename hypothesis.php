@@ -118,12 +118,6 @@ class HypothesisSettingsPage {
 			'hypothesis-setting-admin',
 			'hypothesis_settings_section'
 		);
-		
-	// only display resizing option if Pressbooks is network activated	
-	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
-   		 require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
-	}		
-	if ( is_plugin_active_for_network( 'pressbooks/pressbooks.php' ) {
                add_settings_field(
 			'adjust-page-width',
 			__( 'Adjust the width of the page when annotation pane is expanded', 'hypothesis' ),
